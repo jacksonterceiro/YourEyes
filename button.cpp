@@ -7,6 +7,7 @@ ButtonConfDistance::ButtonConfDistance(int pinIn) {
     pinMode(pinIn, INPUT);
     digitalWrite (pinIn, HIGH);
     _pinButton = pinIn;
+    _statusDistanceButton = DISTANCE_30;
 }
 
 bool ButtonConfDistance::checkButton(){
@@ -17,7 +18,7 @@ void ButtonConfDistance::changeConf(){
   if (_statusDistanceButton == DISTANCE_120)
     _statusDistanceButton = DISTANCE_30;
   else
-    _statusDistanceButton = (enStatusDistanceButton)((int)_statusDistanceButton + 1);
+    _statusDistanceButton = (enStatusDistanceButton)((int)_statusDistanceButton + DISTANCE_30);
 }
 
 int ButtonConfDistance::getDistance(){
