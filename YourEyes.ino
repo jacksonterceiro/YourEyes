@@ -20,7 +20,7 @@
 #define PIN_ECHO 9
 
 //Motor pin
-#define PIN_ACTUATOR 10
+#define PIN_ACTUATOR 7
 
 ButtonConfDistance buttonConfDistance(PIN_BUTTON);  //Initializing button
 Ultrasonic ultrasonic(PIN_TRIGGER, PIN_ECHO);       //Initializing ultrasonic
@@ -31,20 +31,16 @@ float readUltrasonic(){
   return ultrasonic.convert(microsec, Ultrasonic::CM);
 }
 
-//verificar a viabilidade de colocar isso dentro da lib button.cpp
-void managementButton(ButtonConfDistance *clButton) {
-  
-  if(clButton->checkButton())
-    clButton->changeConf();
-  
-    //Serial.println(buttonConfDistance.getDistance());
-    //delay(200);
+void managementButton(ButtonConfDistance *clButton, MotorActuator *clMotor) {
+  if(!clButton->pressTimeButton())
+    return;
+
+  Serial.println("Modificando distancia");
+  clMotor->EnableMotorWithBreaks(clButton->changeConf() / 30); //Primeira distancia de reconhecimento;
 }
 
 void managementMotor(MotorActuator *clMotor){
-  clMotor->EnableMotor();
-  delay(10);
-  clMotor->DisableMotor();
+  clMotor->EnableMotorWithTime(100);
 }
 
 void setup() {
@@ -55,10 +51,13 @@ void setup() {
 void loop() {
   float cmMsec;
 
-  managementButton(&buttonConfDistance);
+  managementButton(&buttonConfDistance, &motorActuator);
   
   cmMsec = readUltrasonic();
+  Serial.print("Distancia: "); Serial.println(cmMsec);
+  
   if(buttonConfDistance.getDistance() >= (int)readUltrasonic())
     managementMotor(&motorActuator);
 
+  Serial.print("Status Button: "); Serial.println(buttonConfDistance.getDistance());
 }

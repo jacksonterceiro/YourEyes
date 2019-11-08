@@ -9,6 +9,8 @@ class MotorActuator {
     MotorActuator(int pinIn);
     void EnableMotor();
     void DisableMotor();
+    void EnableMotorWithTime(int milliseconds);
+    void EnableMotorWithBreaks(int qnt);
     
   private:
     int _pinMotor;
