@@ -4,27 +4,23 @@
 //Motor
 #include "motor.h"
 
-//Thread
-#include <ThreadController.h>
-#include <StaticThreadController.h>
-#include <Thread.h>
-
 //Ultrasonic HC-SR04
 #include <Ultrasonic.h>
 
 //Button pin
-#define PIN_BUTTON 6
+#define PIN_BUTTON 11
 
 //Ultrasonic trigger and echo
-#define PIN_TRIGGER 8
-#define PIN_ECHO 9
+#define PIN_TRIGGER 12
+#define PIN_ECHO 13
 
 //Motor pin
-#define PIN_ACTUATOR 7
+#define PIN_ACTUATOR_1 9
+#define PIN_ACTUATOR_2 10
 
 ButtonConfDistance buttonConfDistance(PIN_BUTTON);  //Initializing button
 Ultrasonic ultrasonic(PIN_TRIGGER, PIN_ECHO);       //Initializing ultrasonic
-MotorActuator motorActuator(PIN_ACTUATOR);          //Initializing actuador
+MotorActuator motorActuator(PIN_ACTUATOR_1, PIN_ACTUATOR_2);          //Initializing actuador
 
 float readUltrasonic(){
   long microsec = ultrasonic.timing();
@@ -40,7 +36,7 @@ void managementButton(ButtonConfDistance *clButton, MotorActuator *clMotor) {
 }
 
 void managementMotor(MotorActuator *clMotor){
-  clMotor->EnableMotorWithTime(100);
+  clMotor->EnableMotorWithTime(400);
 }
 
 void setup() {

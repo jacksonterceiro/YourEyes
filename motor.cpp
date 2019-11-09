@@ -2,18 +2,23 @@
 #include <string.h>
 #include "motor.h"
 
-MotorActuator::MotorActuator(int pinIn) {
-    pinMode(pinIn, OUTPUT);
-    digitalWrite(pinIn, LOW);
-    _pinMotor = pinIn;
+MotorActuator::MotorActuator(int pinIn1, int pinIn2) {
+    pinMode(pinIn1, OUTPUT);
+    pinMode(pinIn2, OUTPUT);
+    digitalWrite(pinIn1, LOW);
+    digitalWrite(pinIn2, LOW);
+    _pinMotor1 = pinIn1;
+    _pinMotor2 = pinIn2;
 }
 
 void MotorActuator::EnableMotor(){
-  digitalWrite(_pinMotor, HIGH);
+  digitalWrite(_pinMotor1, HIGH);
+  digitalWrite(_pinMotor2, HIGH);
 }
 
 void MotorActuator::DisableMotor(){
-  digitalWrite(_pinMotor, LOW);
+  digitalWrite(_pinMotor1, LOW);
+  digitalWrite(_pinMotor2, LOW);
 }
 
 void MotorActuator::EnableMotorWithTime(int milliseconds){

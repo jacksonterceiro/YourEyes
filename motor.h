@@ -6,14 +6,15 @@
 
 class MotorActuator {
   public:
-    MotorActuator(int pinIn);
+    MotorActuator(int pinIn1, int pinIn2);
     void EnableMotor();
     void DisableMotor();
     void EnableMotorWithTime(int milliseconds);
     void EnableMotorWithBreaks(int qnt);
     
   private:
-    int _pinMotor;
+    int _pinMotor1;
+    int _pinMotor2;
 };
 
 #endif //MOTOR_H
