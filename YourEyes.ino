@@ -30,13 +30,18 @@ float readUltrasonic(){
 void managementButton(ButtonConfDistance *clButton, MotorActuator *clMotor) {
   if(!clButton->pressTimeButton())
     return;
-
+  
+  clMotor->DisableMotor();
   Serial.println("Modificando distancia");
   clMotor->EnableMotorWithBreaks(clButton->changeConf() / 30); //Primeira distancia de reconhecimento;
 }
 
-void managementMotor(MotorActuator *clMotor){
-  clMotor->EnableMotorWithTime(400);
+void managementMotor(bool enable, MotorActuator *clMotor){
+  //clMotor->EnableMotorWithTime(400);
+  if(enable)
+    clMotor->EnableMotor();
+  else
+    clMotor->DisableMotor();
 }
 
 void setup() {
@@ -53,7 +58,9 @@ void loop() {
   Serial.print("Distancia: "); Serial.println(cmMsec);
   
   if(buttonConfDistance.getDistance() >= (int)readUltrasonic())
-    managementMotor(&motorActuator);
+    managementMotor(true, &motorActuator);
+  else
+    managementMotor(false, &motorActuator);
 
   Serial.print("Status Button: "); Serial.println(buttonConfDistance.getDistance());
 }
